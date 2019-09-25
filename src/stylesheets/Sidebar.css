@@ -1,0 +1,61 @@
+#body-sidebar {
+    max-width: 500px;
+    display: grid;
+    grid-template-rows: 12px auto 56px;
+    grid-template-columns: 12px auto 12px;
+    grid-template-areas: ". . ." ". main ." "bottomNavigation bottomNavigation bottomNavigation";
+    height: 100%;
+    overflow: auto;
+}
+
+#sidebar-main {
+    grid-area: main;
+}
+#sidebar-navigation {
+    grid-area: bottomNavigation;
+}
+
+.layer-list-item-main {
+    width: 100%;
+    display: grid;
+    grid-area: main;
+    grid-template-columns: 48px auto 48px 8px;
+    grid-template-rows: 48px;
+    grid-template-areas: "checkbox title expand .";
+}
+
+.layer-list-item-checkbox {
+    grid-area: checkbox;
+}
+.layer-list-item-title {
+    grid-area: title;
+    text-align: left;
+    padding: 0 16px;
+    line-height: 48px !important;
+}
+
+.layer-list-item-expand {
+    grid-area: expand;
+}
+
+.layer-list-item-collapsable {
+    grid-area: collapsable;
+    padding: 0 48px 16px 64px;
+    text-align: left;
+    line-height: 32px;
+}
+
+.layer-list-item {
+    display: grid !important;
+    grid-template-rows: 48px auto;
+    grid-template-areas: "main" "collapsable";
+    z-index: 10000;
+    padding-left: 0 !important;
+    width: 100%;
+    padding: 8px 0 !important;
+}
+
+.layer-list-item:hover {
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.08);
+}

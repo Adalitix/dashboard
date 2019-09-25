@@ -1,0 +1,18 @@
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+}
+
+#body-map {
+}
+
+.popup .leaflet-popup-content-wrapper .leaflet-popup-content {
+    margin: 0;
+}
+
+.popup-content {
+    padding: 13px 19px;
+}
+.popup-content {
+    user-select: none;
+}

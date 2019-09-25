@@ -1,0 +1,13 @@
+#header {
+}
+
+#header-title,
+#header-map,
+#header-models {
+    padding: 0 16px;
+}
+
+#header-map,
+#header-models {
+    cursor: pointer;
+}

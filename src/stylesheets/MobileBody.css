@@ -1,0 +1,20 @@
+#mobile-body {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 56px;
+    grid-template-columns: 100%;
+    grid-template-areas: "main" "bottomNavigation";
+}
+
+#mobile-body-main {
+    grid-area: main;
+}
+#mobile-body-navigation {
+    grid-area: bottomNavigation;
+}
+
+.sortableItem {
+    z-index: 10000;
+    padding-left: 0 !important;
+}
