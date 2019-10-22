@@ -6,8 +6,10 @@ import ExpandMore from "@material-ui/icons/ExpandMore"
 import ButtonBase from "@material-ui/core/ButtonBase"
 import Checkbox from "@material-ui/core/Checkbox"
 import Typography from "@material-ui/core/Typography"
-// import CircularProgress from "@material-ui/core/CircularProgress"
 import MSON from "mson-react/lib/component"
+import PlayArrowIcon from "@material-ui/icons/PlayArrow"
+import PauseIcon from "@material-ui/icons/Pause"
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const BASE_URL = "http://localhost:28000"
 
@@ -59,6 +61,9 @@ export default class LayerSelectionItem extends React.Component {
             type,
             fields,
             model,
+            wmsLoading,
+            wmsPlaying,
+            useTime,
         } = this.props
         return (
             <ButtonBase className="layer-list-item">
@@ -77,6 +82,29 @@ export default class LayerSelectionItem extends React.Component {
                         {name}
                     </Typography>
 
+                    {useTime && visible && !wmsLoading && !wmsPlaying && (
+                        <IconButton aria-label="play">
+                            <PlayArrowIcon
+                                onClick={e => {
+                                    e.stopPropagation()
+                                    updateLayer(name, { wmsPlaying: true })
+                                }}
+                            />
+                        </IconButton>
+                    )}
+
+                    {useTime && visible && !wmsLoading && wmsPlaying && (
+                        <IconButton aria-label="pause">
+                            <PauseIcon
+                                onClick={e => {
+                                    e.stopPropagation()
+                                    updateLayer(name, { wmsPlaying: false })
+                                }}
+                            />
+                        </IconButton>
+                    )}
+                    {useTime && visible && wmsLoading && <CircularProgress size={26} style={{ margin: "10px" }} />}
+
                     {fields !== null && fields !== undefined ? (
                         <IconButton
                             onClick={e => {
@@ -88,8 +116,8 @@ export default class LayerSelectionItem extends React.Component {
                             {this.props.open ? <ExpandLess /> : <ExpandMore />}
                         </IconButton>
                     ) : (
-                        ""
-                    )}
+                            ""
+                        )}
                 </div>
                 {fields !== null && fields !== undefined ? (
                     <Collapse in={this.props.open} timeout="auto" unmountOnExit>
@@ -102,8 +130,8 @@ export default class LayerSelectionItem extends React.Component {
                         />
                     </Collapse>
                 ) : (
-                    ""
-                )}
+                        ""
+                    )}
             </ButtonBase>
         )
     }

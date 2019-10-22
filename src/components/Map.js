@@ -220,7 +220,7 @@ class Map extends React.Component {
 
                     {reversed(this.props.layers)
                         .filter(({ visible, loading }) => visible && !loading)
-                        .map(({ url, layers, name, useTime }, i) =>
+                        .map(({ url, layers, name, useTime, wmsPlaying, wmsLoading }, i) =>
                             useTime ? (
                                 <WMSTimeDimensionLayer
                                     layers={layers}
@@ -229,17 +229,20 @@ class Map extends React.Component {
                                     format="image/png"
                                     key={name}
                                     zIndex={i + 10}
+                                    updateLayer={update => this.props.updateLayer(name, update)}
+                                    wmsPlaying={wmsPlaying}
+                                    wmsLoading={wmsLoading}
                                 />
                             ) : (
-                                <WMSTileLayer
-                                    layers={layers}
-                                    url={url}
-                                    transparent={true}
-                                    format="image/png"
-                                    key={name}
-                                    zIndex={i + 10}
-                                />
-                            )
+                                    <WMSTileLayer
+                                        layers={layers}
+                                        url={url}
+                                        transparent={true}
+                                        format="image/png"
+                                        key={name}
+                                        zIndex={i + 10}
+                                    />
+                                )
                         )}
                     {this.state.selectedFeatures.length > 0 && (
                         <Popup

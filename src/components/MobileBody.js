@@ -28,6 +28,7 @@ export default class Sidebar extends React.Component {
                                 width: "100%",
                                 height: "100%",
                             }}
+                            updateLayer={this.props.updateLayer}
                         />
                         <LayerSelection
                             layers={this.props.layers}

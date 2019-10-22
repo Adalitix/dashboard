@@ -29,20 +29,26 @@ const SortableItem = sortableElement(
         updateLayer,
         fields,
         model,
+        wmsLoading,
+        wmsPlaying,
+        useTime
     }) => (
-        <LayerSelectionItem
-            visible={visible}
-            name={name}
-            onToggle={onToggle}
-            onToggleExpand={onToggleExpand}
-            open={open}
-            layers={layers}
-            updateLayer={updateLayer}
-            type={type}
-            fields={fields}
-            model={model}
-        />
-    )
+            <LayerSelectionItem
+                visible={visible}
+                name={name}
+                onToggle={onToggle}
+                onToggleExpand={onToggleExpand}
+                open={open}
+                layers={layers}
+                updateLayer={updateLayer}
+                type={type}
+                fields={fields}
+                model={model}
+                wmsLoading={wmsLoading}
+                useTime={useTime}
+                wmsPlaying={wmsPlaying}
+            />
+        )
 )
 
 const SortableContainer = sortableContainer(({ children }) => {
@@ -110,41 +116,47 @@ export default class LayerSelection extends React.Component {
                                     layers,
                                     fields,
                                     model,
+                                    wmsLoading,
+                                    wmsPlaying,
+                                    useTime
                                 },
                                 index
                             ) => (
-                                <SortableItem
-                                    key={`item-${index}`}
-                                    index={index}
-                                    type={type}
-                                    visible={visible}
-                                    name={name}
-                                    url={url}
-                                    onToggle={onToggle}
-                                    loading={loading}
-                                    layers={layers}
-                                    updateLayer={updateLayer}
-                                    showHandle={!this.state.searchValue}
-                                    open={
-                                        this.state.openItems.indexOf(name) !==
-                                        -1
-                                    }
-                                    fields={fields}
-                                    model={model}
-                                    onToggleExpand={newOpenState => {
-                                        if (newOpenState)
-                                            this.setState(({ openItems }) => ({
-                                                openItems: [...openItems, name],
-                                            }))
-                                        else
-                                            this.setState(({ openItems }) => ({
-                                                openItems: openItems.filter(
-                                                    item => item !== name
-                                                ),
-                                            }))
-                                    }}
-                                />
-                            )
+                                    <SortableItem
+                                        key={`item-${index}`}
+                                        index={index}
+                                        type={type}
+                                        visible={visible}
+                                        name={name}
+                                        url={url}
+                                        onToggle={onToggle}
+                                        loading={loading}
+                                        layers={layers}
+                                        updateLayer={updateLayer}
+                                        showHandle={!this.state.searchValue}
+                                        open={
+                                            this.state.openItems.indexOf(name) !==
+                                            -1
+                                        }
+                                        fields={fields}
+                                        model={model}
+                                        wmsLoading={wmsLoading}
+                                        wmsPlaying={wmsPlaying}
+                                        useTime={useTime}
+                                        onToggleExpand={newOpenState => {
+                                            if (newOpenState)
+                                                this.setState(({ openItems }) => ({
+                                                    openItems: [...openItems, name],
+                                                }))
+                                            else
+                                                this.setState(({ openItems }) => ({
+                                                    openItems: openItems.filter(
+                                                        item => item !== name
+                                                    ),
+                                                }))
+                                        }}
+                                    />
+                                )
                         )}
                 </SortableContainer>
             </>

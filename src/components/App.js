@@ -28,9 +28,9 @@ function updateLayerByName(layers, layerName, update) {
     return layers.map(layer =>
         layer.name === layerName
             ? {
-                  ...layer,
-                  ...update,
-              }
+                ...layer,
+                ...update,
+            }
             : layer
     )
 }
@@ -62,6 +62,8 @@ export default class App extends React.Component {
                         data: null,
                         loading: false,
                         layers: layer.layers || "",
+                        wmsLoading: true,
+                        wmsPlaying: true
                     })),
                 })
             )
@@ -76,9 +78,9 @@ export default class App extends React.Component {
             layers: layers.map(layer =>
                 layer.name === layerName
                     ? {
-                          ...layer,
-                          visible: !layer.visible,
-                      }
+                        ...layer,
+                        visible: !layer.visible,
+                    }
                     : layer
             ),
         }))
@@ -89,9 +91,9 @@ export default class App extends React.Component {
             layers: layers.map(layer =>
                 layer.name === layerName
                     ? {
-                          ...layer,
-                          ...layerUpdate,
-                      }
+                        ...layer,
+                        ...layerUpdate,
+                    }
                     : layer
             ),
         }))
@@ -135,6 +137,7 @@ export default class App extends React.Component {
                                         flex: "1 0 66%",
                                     }}
                                     layers={this.state.layers}
+                                    updateLayer={this.updateLayer}
                                 />
                                 <Sidebar
                                     layers={this.state.layers}
