@@ -220,7 +220,7 @@ class Map extends React.Component {
 
                     {reversed(this.props.layers)
                         .filter(({ visible, loading }) => visible && !loading)
-                        .map(({ url, layers, name, useTime, wmsPlaying, wmsLoading }, i) =>
+                        .map(({ url, layers, name, useTime, wmsPlaying, wmsLoading, wmsPlayingSpeed, wmsCurrentTime }, i) =>
                             useTime ? (
                                 <WMSTimeDimensionLayer
                                     layers={layers}
@@ -232,6 +232,8 @@ class Map extends React.Component {
                                     updateLayer={update => this.props.updateLayer(name, update)}
                                     wmsPlaying={wmsPlaying}
                                     wmsLoading={wmsLoading}
+                                    wmsPlayingSpeed={wmsPlayingSpeed}
+                                    wmsCurrentTime={wmsCurrentTime}
                                 />
                             ) : (
                                     <WMSTileLayer

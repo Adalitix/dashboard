@@ -9,7 +9,10 @@ import Typography from "@material-ui/core/Typography"
 import MSON from "mson-react/lib/component"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 import PauseIcon from "@material-ui/icons/Pause"
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress"
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem"
+import Slider from "@material-ui/core/Slider"
 
 const BASE_URL = "http://localhost:28000"
 
@@ -63,6 +66,9 @@ export default class LayerSelectionItem extends React.Component {
             model,
             wmsLoading,
             wmsPlaying,
+            wmsCurrentTime,
+            wsmTimeSteps,
+            wmsPlayingSpeed,
             useTime,
         } = this.props
         return (
@@ -81,30 +87,6 @@ export default class LayerSelectionItem extends React.Component {
                     <Typography className="layer-list-item-title">
                         {name}
                     </Typography>
-
-                    {useTime && visible && !wmsLoading && !wmsPlaying && (
-                        <IconButton aria-label="play">
-                            <PlayArrowIcon
-                                onClick={e => {
-                                    e.stopPropagation()
-                                    updateLayer(name, { wmsPlaying: true })
-                                }}
-                            />
-                        </IconButton>
-                    )}
-
-                    {useTime && visible && !wmsLoading && wmsPlaying && (
-                        <IconButton aria-label="pause">
-                            <PauseIcon
-                                onClick={e => {
-                                    e.stopPropagation()
-                                    updateLayer(name, { wmsPlaying: false })
-                                }}
-                            />
-                        </IconButton>
-                    )}
-                    {useTime && visible && wmsLoading && <CircularProgress size={26} style={{ margin: "10px" }} />}
-
                     {fields !== null && fields !== undefined ? (
                         <IconButton
                             onClick={e => {
@@ -119,6 +101,78 @@ export default class LayerSelectionItem extends React.Component {
                             ""
                         )}
                 </div>
+                {useTime && visible && (
+                    <div className="layer-list-item-timeControls">
+                        <span className="layer-list-item-playpause">
+                            {!wmsLoading && !wmsPlaying && (
+                                <IconButton aria-label="play">
+                                    <PlayArrowIcon
+                                        onClick={e => {
+                                            e.stopPropagation()
+                                            updateLayer(name, {
+                                                wmsPlaying: true,
+                                            })
+                                        }}
+                                    />
+                                </IconButton>
+                            )}
+
+                            {!wmsLoading && wmsPlaying && (
+                                <IconButton aria-label="pause">
+                                    <PauseIcon
+                                        onClick={e => {
+                                            e.stopPropagation()
+                                            updateLayer(name, {
+                                                wmsPlaying: false,
+                                            })
+                                        }}
+                                    />
+                                </IconButton>
+                            )}
+                            {wmsLoading && (
+                                <CircularProgress
+                                    size={26}
+                                    style={{ margin: "10px" }}
+                                />
+                            )}
+                        </span>
+                        <span className="layer-list-item-time">
+                            {wmsCurrentTime}
+                        </span>
+
+                        {/* the values are the ms interval between frames */}
+                        <Select
+                            value={wmsPlayingSpeed}
+                            onChange={e =>
+                                updateLayer(name, {
+                                    wmsPlayingSpeed: e.target.value,
+                                })
+                            }
+                            className="layer-list-item-speed"
+                        >
+                            <MenuItem value={500}>2x</MenuItem>
+                            <MenuItem value={666}>1.5x</MenuItem>
+                            <MenuItem value={1000}>1x</MenuItem>
+                            <MenuItem value={2000}>0.5x</MenuItem>
+                            <MenuItem value={4000}>0.25x</MenuItem>
+                        </Select>
+                        {wsmTimeSteps && wmsCurrentTime && (
+                            <Slider
+                                className="layer-list-item-seekbar"
+                                value={wsmTimeSteps.indexOf(wmsCurrentTime)}
+                                valueLabelDisplay="auto"
+                                step={1}
+                                min={0}
+                                max={wsmTimeSteps.length - 1}
+                                onChange={(e, value) =>
+                                    updateLayer(name, {
+                                        wmsCurrentTime: wsmTimeSteps[value],
+                                    })}
+                            />
+                        )}
+                    </div>
+                )}
+
                 {fields !== null && fields !== undefined ? (
                     <Collapse in={this.props.open} timeout="auto" unmountOnExit>
                         <CollapsableContent

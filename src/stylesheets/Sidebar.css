@@ -59,3 +59,28 @@
     text-decoration: none;
     background-color: rgba(0, 0, 0, 0.08);
 }
+
+.layer-list-item-timeControls {
+    display: grid;
+    grid-template-columns: 48px 48px 8px auto 64px 8px;
+    grid-template-rows: 48px 8px 24px;
+    grid-template-areas: ". playpause . time speed ." ". . . . . ." ". . timeseek timeseek timeseek .";
+}
+
+.layer-list-item-playpause {
+    grid-area: playpause;
+}
+
+.layer-list-item-time {
+    grid-area: time;
+    line-height: 48px;
+    text-align: left;
+}
+
+.layer-list-item-speed {
+    grid-area: speed;
+}
+
+.layer-list-item-seekbar {
+    grid-area: timeseek;
+}

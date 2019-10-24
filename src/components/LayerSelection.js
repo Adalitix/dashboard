@@ -31,6 +31,9 @@ const SortableItem = sortableElement(
         model,
         wmsLoading,
         wmsPlaying,
+        wmsCurrentTime,
+        wmsPlayingSpeed,
+        wsmTimeSteps,
         useTime
     }) => (
             <LayerSelectionItem
@@ -47,6 +50,9 @@ const SortableItem = sortableElement(
                 wmsLoading={wmsLoading}
                 useTime={useTime}
                 wmsPlaying={wmsPlaying}
+                wmsCurrentTime={wmsCurrentTime}
+                wmsPlayingSpeed={wmsPlayingSpeed}
+                wsmTimeSteps={wsmTimeSteps}
             />
         )
 )
@@ -118,6 +124,9 @@ export default class LayerSelection extends React.Component {
                                     model,
                                     wmsLoading,
                                     wmsPlaying,
+                                    wmsCurrentTime,
+                                    wmsPlayingSpeed,
+                                    wsmTimeSteps,
                                     useTime
                                 },
                                 index
@@ -142,6 +151,9 @@ export default class LayerSelection extends React.Component {
                                         model={model}
                                         wmsLoading={wmsLoading}
                                         wmsPlaying={wmsPlaying}
+                                        wmsCurrentTime={wmsCurrentTime}
+                                        wmsPlayingSpeed={wmsPlayingSpeed}
+                                        wsmTimeSteps={wsmTimeSteps}
                                         useTime={useTime}
                                         onToggleExpand={newOpenState => {
                                             if (newOpenState)

@@ -36,7 +36,7 @@ function updateLayerByName(layers, layerName, update) {
 }
 
 // const BASE_URL = process.env.BASE_URL
-const BASE_URL = "http://localhost:28000"
+const BASE_URL = "http://13.80.249.224:28000"
 
 export default class App extends React.Component {
     state = {
@@ -63,7 +63,8 @@ export default class App extends React.Component {
                         loading: false,
                         layers: layer.layers || "",
                         wmsLoading: true,
-                        wmsPlaying: true
+                        wmsPlaying: true,
+                        wmsPlayingSpeed: 1000,
                     })),
                 })
             )

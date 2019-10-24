@@ -31,6 +31,7 @@ export default class WMSTimeDimensionLayer extends React.Component {
                             ) !== -1
                     )[0].Extent[0]["_"].split(",")
 
+                    this.props.updateLayer({ wmsCurrentTime: times[0], wsmTimeSteps: times })
                     this.setState({ steps: times, show_steps: times.slice(0, PRELOAD_TILES) })
                 })
             })
@@ -38,10 +39,20 @@ export default class WMSTimeDimensionLayer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.wmsPlaying && !nextProps.wmsLoading && this.playInterval === null) {
-            this.play()
+            this.playNextFrame()
         }
         if ((!nextProps.wmsPlaying || nextProps.wmsLoading) && this.playInterval !== null) {
             this.stop()
+        }
+        if (nextProps.wmsCurrentTime !== this.state.timestep && this.state.steps) {
+            let step = this.state.steps.indexOf(nextProps.wmsCurrentTime)
+            console.log(nextProps.wmsCurrentTime, step)
+            step = step === -1 ? 0 : step
+
+            this.setState({
+                timestep: step,
+                show_steps: this.state.steps.slice(step, step + PRELOAD_TILES)
+            })
         }
     }
 
@@ -49,28 +60,31 @@ export default class WMSTimeDimensionLayer extends React.Component {
         this.stop()
     }
 
-    play = () => {
-        this.playInterval = setInterval(
+    playNextFrame = () => {
+        this.playInterval = setTimeout(
             () => {
-                this.setState(({ timestep, steps }) => ({
-                    timestep: (timestep + 1) % steps.length,
-                    show_steps: steps.slice(timestep, timestep + PRELOAD_TILES)
-                }))
-            },
-            750
-        )
+                const newStep = (this.state.timestep + 1) % this.state.steps.length
+                console.log(newStep)
+                this.props.updateLayer({ wmsCurrentTime: this.state.steps[newStep] })
 
-        console.log("playing")
+                // not using setInterval so that the playing speed is automatically updated
+                if (this.props.wmsPlaying && !this.props.wmsLoading) {
+                    this.playNextFrame()
+                }
+            },
+            this.props.wmsPlayingSpeed
+        )
     }
 
     stop = () => {
-        clearInterval(this.playInterval)
+        clearTimeout(this.playInterval)
         this.playInterval = null
         console.log("Stopped")
     }
 
     onLoad = () => {
         this.totalLoaded += 1
+        console.log(this.totalLoaded)
 
         if (this.totalLoaded === this.state.steps.length || this.totalLoaded >= PRELOAD_TILES) {
             console.log("end loading")
@@ -93,6 +107,7 @@ export default class WMSTimeDimensionLayer extends React.Component {
         let steps = this.state.show_steps
 
         if (steps === null) return ""
+        console.log(this.state)
 
         return (
             <>
